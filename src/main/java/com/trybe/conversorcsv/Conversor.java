@@ -1,8 +1,16 @@
 package com.trybe.conversorcsv;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Class Conversor.
+ *
+ */
 public class Conversor {
 
   /**
@@ -30,6 +38,30 @@ public class Conversor {
    *                     gravar os arquivos de saída.
    */
   public void converterPasta(File pastaDeEntradas, File pastaDeSaidas) throws IOException {
-    // TODO: Implementar.
+    if (pastaDeEntradas.isDirectory() && pastaDeEntradas.canRead()) {
+      for (File arquivoEntreda : pastaDeEntradas.listFiles()) {
+        File arquivoDeSaida = new File(pastaDeSaidas + File.separator + arquivoEntreda.getName());
+        converterArquivo(arquivoEntreda, arquivoDeSaida);
+      }
+    }
   }
+
+  public void converterArquivo(File arquivoDeEntrada, File arquivoDeSaida) throws IOException {
+    if (arquivoDeEntrada.isFile() && arquivoDeEntrada.canRead()) {
+      BufferedReader reader = new BufferedReader(new FileReader(arquivoDeEntrada));
+      BufferedWriter writer = new BufferedWriter(new FileWriter(arquivoDeSaida));
+
+      String linha = reader.readLine();
+
+      while (linha != null) {
+        writer.write(linha);
+        writer.newLine();
+        linha = reader.readLine();
+      }
+
+      reader.close();
+      writer.close();
+    }
+  }
+
 }
