@@ -38,6 +38,10 @@ public class Conversor {
    *                     gravar os arquivos de saída.
    */
   public void converterPasta(File pastaDeEntradas, File pastaDeSaidas) throws IOException {
+    if (!pastaDeSaidas.exists()) {
+      pastaDeSaidas.mkdir();
+    }
+    
     if (pastaDeEntradas.isDirectory() && pastaDeEntradas.canRead()) {
       for (File arquivoEntreda : pastaDeEntradas.listFiles()) {
         File arquivoDeSaida = new File(pastaDeSaidas + File.separator + arquivoEntreda.getName());
@@ -47,7 +51,7 @@ public class Conversor {
   }
 
   public void converterArquivo(File arquivoDeEntrada, File arquivoDeSaida) throws IOException {
-    if (arquivoDeEntrada.isFile() && arquivoDeEntrada.canRead()) {
+    if (arquivoDeEntrada.exists() && arquivoDeEntrada.canRead()) {
       BufferedReader reader = new BufferedReader(new FileReader(arquivoDeEntrada));
       BufferedWriter writer = new BufferedWriter(new FileWriter(arquivoDeSaida));
 
