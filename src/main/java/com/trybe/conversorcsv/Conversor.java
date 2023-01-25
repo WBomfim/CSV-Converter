@@ -41,17 +41,24 @@ public class Conversor {
     if (!pastaDeSaidas.exists()) {
       pastaDeSaidas.mkdir();
     }
-    
+
     if (pastaDeEntradas.isDirectory() && pastaDeEntradas.canRead()) {
-      for (File arquivoEntreda : pastaDeEntradas.listFiles()) {
-        File arquivoDeSaida = new File(pastaDeSaidas + File.separator + arquivoEntreda.getName());
-        converterArquivo(arquivoEntreda, arquivoDeSaida);
+      for (File arquivoEntrada : pastaDeEntradas.listFiles()) {
+        File arquivoDeSaida = new File(pastaDeSaidas + File.separator + arquivoEntrada.getName());
+        converterArquivo(arquivoEntrada, arquivoDeSaida);
       }
     }
   }
 
+  /**
+   * Formata os dados de entrada de um aquivo CSV e grava em outro arquivo.
+   *
+   * @param arquivoDeEntrada Arquivo com as informações de entrada.
+   * @param arquivoDeSaida Arquivo onde serão gravados os dados formatados.
+   * 
+   */
   public void converterArquivo(File arquivoDeEntrada, File arquivoDeSaida) throws IOException {
-    if (arquivoDeEntrada.exists() && arquivoDeEntrada.canRead()) {
+    if (arquivoDeEntrada.exists()) {
       BufferedReader reader = new BufferedReader(new FileReader(arquivoDeEntrada));
       BufferedWriter writer = new BufferedWriter(new FileWriter(arquivoDeSaida));
 
@@ -66,7 +73,7 @@ public class Conversor {
         String nome = campos[0].toUpperCase();
         String data = formatarData(campos[1]);
         String email = campos[2];
-        String cpf = formatarCPF(campos[3]);
+        String cpf = formatarCpf(campos[3]);
 
         linha = nome + "," + data + "," + email + "," + cpf;
 
@@ -85,11 +92,18 @@ public class Conversor {
     return campos[2] + "-" + campos[1] + "-" + campos[0];
   }
 
-  public String formatarCPF(String cpf) {
-    StringBuilder newCPF = new StringBuilder(cpf);
-    newCPF.insert(3, ".");
-    newCPF.insert(7, ".");
-    newCPF.insert(11, "-");
-    return newCPF.toString();
+  /**
+   * Recebe uma string com os numeros de um CPF e transforma no formato padrão.
+   *
+   * @param cpf Uma string contendo os 11 números de um CPF.
+   * @return Retorna a string no formato padrão do CPF, contendo "." e "-".
+   *
+   */
+  public String formatarCpf(String cpf) {
+    StringBuilder newCpf = new StringBuilder(cpf);
+    newCpf.insert(3, ".");
+    newCpf.insert(7, ".");
+    newCpf.insert(11, "-");
+    return newCpf.toString();
   }
 }
