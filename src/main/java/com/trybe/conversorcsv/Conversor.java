@@ -52,8 +52,16 @@ public class Conversor {
       BufferedWriter writer = new BufferedWriter(new FileWriter(arquivoDeSaida));
 
       String linha = reader.readLine();
+      writer.write(linha);
+      writer.newLine();
+      linha = reader.readLine();
 
       while (linha != null) {
+        String[] campos = linha.split(",");
+
+        String nome = campos[0].toUpperCase();
+
+
         writer.write(linha);
         writer.newLine();
         linha = reader.readLine();
@@ -62,6 +70,11 @@ public class Conversor {
       reader.close();
       writer.close();
     }
+  }
+
+  public String formatarData(String data) {
+    String[] campos = data.split("/");
+    return campos[2] + "-" + campos[1] + "-" + campos[0];
   }
 
 }
