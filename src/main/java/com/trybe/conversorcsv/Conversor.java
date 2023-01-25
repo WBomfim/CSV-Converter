@@ -60,7 +60,11 @@ public class Conversor {
         String[] campos = linha.split(",");
 
         String nome = campos[0].toUpperCase();
+        String data = formatarData(campos[1]);
+        String email = campos[2];
+        String cpf = formatarCPF(campos[3]);
 
+        linha = nome + "," + data + "," + email + "," + cpf;
 
         writer.write(linha);
         writer.newLine();
@@ -77,4 +81,11 @@ public class Conversor {
     return campos[2] + "-" + campos[1] + "-" + campos[0];
   }
 
+  public String formatarCPF(String cpf) {
+    StringBuilder newCPF = new StringBuilder(cpf);
+    newCPF.insert(3, ".");
+    newCPF.insert(7, ".");
+    newCPF.insert(11, "-");
+    return newCPF.toString();
+  }
 }
